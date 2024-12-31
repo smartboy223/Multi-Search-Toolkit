@@ -19,7 +19,7 @@ for /f "delims=" %%a in (%input_file%) do (
     set "input=%%a"
     set "input=!input: =!"  REM Remove spaces from the input
 
-    REM Determine the input type
+    REM Skip empty lines
     if "!input!"=="" (
         echo Skipping empty line...
         goto :continue
@@ -27,17 +27,15 @@ for /f "delims=" %%a in (%input_file%) do (
 
     echo Processing "!input!"...
 
-    REM Check if it's an IP address
-    for /f "tokens=1-4 delims=." %%i in ("!input!") do (
-        if "%%i" neq "" if "%%j" neq "" if "%%k" neq "" if "%%l" neq "" (
-            echo Recognized as an IP address.
-            start msedge.exe -inprivate "https://www.virustotal.com/gui/ip-address/!input!"
-            goto :continue
-        )
+    REM Check if it's an IP address (numeric with dots)
+    echo !input! | findstr /r "^[0-9]*\.[0-9]*\.[0-9]*\.[0-9]*$" >nul && (
+        echo Recognized as an IP address.
+        start msedge.exe -inprivate "https://www.virustotal.com/gui/ip-address/!input!"
+        goto :continue
     )
 
-    REM Check if it's a domain (contains a dot but not just an IP-like structure)
-    echo !input! | findstr /r "^.*\..*$" >nul && (
+    REM Check if it's a domain (contains at least one dot and not just an IP)
+    echo !input! | findstr /r "^[a-zA-Z0-9-]*\.[a-zA-Z0-9-.]*$" >nul && (
         echo Recognized as a domain.
         start msedge.exe -inprivate "https://www.virustotal.com/gui/domain/!input!"
         goto :continue
