@@ -1,1 +1,6 @@
-here any keywords each search in single line , do not chnage the name as the code read this excat name 
+# Add your search terms or URLs below, one per line.
+# Do not change the file name ("inputs.txt"), as the code relies on this exact name.
+# Example entries:
+# google.com
+# best programming languages
+# 192.168.1.1
