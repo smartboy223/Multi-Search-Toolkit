@@ -48,9 +48,9 @@ for /f "delims=" %%a in (%input_file%) do (
     :continue
     set /a num_tabs+=1
 
-    REM Pause after 50 tabs to prevent overloading the browser
-    if !num_tabs! geq 50 (
-        echo Reached 50 tabs. Press any key to continue...
+    REM Pause after 20 tabs to prevent overloading the browser
+    if !num_tabs! geq 20 (
+        echo Reached 20 tabs. Press any key to continue...
         pause
         set /a num_tabs=0
     )
